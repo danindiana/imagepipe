@@ -154,16 +154,19 @@ class Session:
         self.con.commit()
 
     # ---------- D/E/F. embed, rank, dedup ----------
-    def embed_all(self):
+    def embed_all(self, progress_cb=None):
         rows = self.con.execute(
             """SELECT id, preview_path FROM images WHERE session_id=? AND status='downloaded'
                AND id NOT IN (SELECT image_id FROM embeddings)""", (self.id,)).fetchall()
-        for r in rows:
+        total = len(rows)
+        for i, r in enumerate(rows):
+            if progress_cb: progress_cb("Embedding candidates...", int((i / total) * 100) if total > 0 else 100)
             v = self.backend.embed_image(r["preview_path"])
             self.con.execute("INSERT OR REPLACE INTO embeddings VALUES(?,?,?,?)",
                              (r["id"], self.backend.name, len(v), similarity.vec_to_blob(v)))
         self.con.commit()
-        self.manifest.log("embedded", count=len(rows))
+        if progress_cb and total > 0: progress_cb("Embedding complete", 100)
+        self.manifest.log("embedded", count=total)
 
     def _vecs(self, role: str | None = None) -> dict[str, np.ndarray]:
         q = """SELECT i.id, e.vector FROM images i JOIN embeddings e ON e.image_id=i.id

@@ -126,3 +126,25 @@
 {"ts": 1783399424.5000842, "event": "feedback", "image_id": "6ac2b22e73e5416d", "signal": "more_like_this"}
 {"ts": 1783399432.5931628, "event": "embedded", "count": 0}
 {"ts": 1783399432.595686, "event": "ranked", "candidates": 31, "refs": 0, "text_prompt": "beautiful landscapes", "feedback_pos": 3, "feedback_neg": 0}
+{"ts": 1783400074.3716192, "event": "feedback", "image_id": "195cee267b50433c", "signal": "reject"}
+{"ts": 1783400075.928618, "event": "feedback", "image_id": "08d9919d2c9f459a", "signal": "reject"}
+{"ts": 1783400076.744681, "event": "feedback", "image_id": "73b52e0aff414cc7", "signal": "reject"}
+{"ts": 1783400077.5777955, "event": "feedback", "image_id": "8d2e08cd24a74e73", "signal": "reject"}
+{"ts": 1783400078.4967437, "event": "feedback", "image_id": "69203f19bde84bd8", "signal": "reject"}
+{"ts": 1783400079.6560674, "event": "feedback", "image_id": "c6022c0b3a704fe8", "signal": "reject"}
+{"ts": 1783400081.8007953, "event": "feedback", "image_id": "5c318ca469ce4d49", "signal": "reject"}
+{"ts": 1783400083.897054, "event": "feedback", "image_id": "fc376d0e9a1e4e69", "signal": "reject"}
+{"ts": 1783400084.9770527, "event": "feedback", "image_id": "39ebd6f9f24240b0", "signal": "reject"}
+{"ts": 1783400086.641096, "event": "feedback", "image_id": "e29bb5ca15c54361", "signal": "reject"}
+{"ts": 1783400088.1132064, "event": "feedback", "image_id": "7f910ed920f2459b", "signal": "reject"}
+{"ts": 1783400090.1931627, "event": "feedback", "image_id": "b3e3b1fb12db4e73", "signal": "reject"}
+{"ts": 1783400092.153172, "event": "feedback", "image_id": "e007f81e9fb04a56", "signal": "reject"}
+{"ts": 1783400094.7931952, "event": "feedback", "image_id": "b4d4849e4b254678", "signal": "reject"}
+{"ts": 1783400095.5850375, "event": "feedback", "image_id": "20449a1915c246cf", "signal": "reject"}
+{"ts": 1783400096.865128, "event": "feedback", "image_id": "e0cb52b5fd594473", "signal": "reject"}
+{"ts": 1783400097.7693534, "event": "feedback", "image_id": "f53092fad88e4266", "signal": "reject"}
+{"ts": 1783400101.6560652, "event": "embedded", "count": 0}
+{"ts": 1783400101.6592016, "event": "ranked", "candidates": 31, "refs": 0, "text_prompt": "beautiful landscapes", "feedback_pos": 3, "feedback_neg": 17}
+{"ts": 1783400114.3293169, "event": "feedback", "image_id": "471cd2ac1bbc46b9", "signal": "reject"}
+{"ts": 1783400115.2249107, "event": "feedback", "image_id": "f8a09ac964ae4edb", "signal": "reject"}
+{"ts": 1783400175.7469213, "event": "feedback", "image_id": "5e69591272564bd2", "signal": "reject"}

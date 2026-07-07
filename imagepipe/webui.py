@@ -99,7 +99,17 @@ async function doSearch(){
     if(r.status !== 200) throw new Error(res.error || 'Download failed');
 
     stat.textContent = 'Step 3/3: Embedding and Ranking...';
+    let pollInterval = setInterval(async () => {
+      try {
+        let p = await fetch('/api/progress').then(res => res.json());
+        if(p.active) {
+          stat.textContent = `Step 3/3: ${p.msg} (${p.pct}%)`;
+        }
+      } catch(e) {}
+    }, 500);
+
     r = await fetch('/api/rerank?query='+encodeURIComponent(q), {method:'POST'});
+    clearInterval(pollInterval);
     res = await r.json();
     if(r.status !== 200) throw new Error(res.error || 'Rank failed');
 
@@ -133,6 +143,15 @@ def make_app(cfg: Config, session_id: str) -> FastAPI:
     s = Session(cfg, session_id=session_id)
     app = FastAPI()
 
+    progress_state = {"msg": "", "pct": 0, "active": False}
+    def set_progress(msg, pct):
+        progress_state["msg"] = msg
+        progress_state["pct"] = pct
+
+    @app.get("/api/progress")
+    def get_progress():
+        return progress_state
+
     @app.get("/", response_class=HTMLResponse)
     def index():
         return PAGE
@@ -165,11 +184,17 @@ def make_app(cfg: Config, session_id: str) -> FastAPI:
     @app.post("/api/rerank")
     def rerank(query: str = None):
         try:
-            s.embed_all()
+            progress_state["active"] = True
+            progress_state["msg"] = "Preparing embeddings..."
+            progress_state["pct"] = 0
+            s.embed_all(progress_cb=set_progress)
+            set_progress("Ranking candidates...", 100)
             s.rank(text_prompt=query or s.intent or None)
             return {"ok": True}
         except Exception as e:
             return JSONResponse({"error": str(e)}, status_code=500)
+        finally:
+            progress_state["active"] = False
 
     @app.post("/api/acquire")
     def acquire(query: str, limit: int = 10, provider: str = "openverse"):
