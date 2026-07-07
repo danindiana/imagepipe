@@ -1,4 +1,13 @@
-# imagepipe
+<div align="center">
+  <img src="diagrams/logo.jpg" alt="imagepipe logo" width="400">
+  
+  # imagepipe
+
+  [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/release/python-3110/)
+  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+  [![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=flat&logo=fastapi)](https://fastapi.tiangolo.com/)
+  [![SQLite](https://img.shields.io/badge/sqlite-%2307405e.svg?style=flat&logo=sqlite&logoColor=white)](https://www.sqlite.org/index.html)
+</div>
 
 A compliant image discovery → similarity → acquisition → dedup → classify → sort pipeline. Python 3.11+, SQLite, JSONL provenance, Pillow, imagehash, optional PyTorch/OpenCLIP, optional hnswlib, Typer CLI, FastAPI review UI.
 
