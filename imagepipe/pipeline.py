@@ -178,8 +178,10 @@ class Session:
         return {r["id"]: similarity.blob_to_vec(r["vector"])
                 for r in self.con.execute(q, args)}
 
-    def rank(self, text_prompt: str | None = None):
+    def rank(self, text_prompt: str | None = None, seed_image_path: str | None = None):
         refs = {**self._vecs("reference"), **self._vecs("screenshot_crop")}
+        if seed_image_path and Path(seed_image_path).exists():
+            refs["seed"] = self.backend.embed_image(seed_image_path)
         cands = self._vecs("candidate")
         if not cands:
             return

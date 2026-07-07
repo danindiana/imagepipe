@@ -34,6 +34,7 @@ h1{font-size:16px} .grid{display:grid;grid-template-columns:repeat(auto-fill,min
     <option value="local_dir">Local Dir</option>
   </select>
   <input id="q" type="text" placeholder="Enter image prompt..." style="flex-grow: 1; padding: 6px; border-radius: 8px; border: 1px solid #3a4358; background: #1a1e25; color: white;" onkeydown="if(event.key==='Enter') doSearch()">
+  <input id="seed" type="text" placeholder="Optional: Local seed image path..." style="flex-grow: 1; padding: 6px; border-radius: 8px; border: 1px solid #3a4358; background: #1a1e25; color: white;">
   <input id="limit" type="number" value="10" min="1" max="100" style="width: 60px; padding: 6px; border-radius: 8px; border: 1px solid #3a4358; background: #1a1e25; color: white;" title="Number of images to load">
   <button onclick="doSearch()" style="padding:6px 12px;border-radius:8px;border:0;background:#365; color:#fff;cursor:pointer">Search</button>
 </div>
@@ -85,7 +86,10 @@ async function rerank(){
     } catch(e) {}
   }, 500);
 
-  await fetch('/api/rerank',{method:'POST'});
+  const seed = document.getElementById('seed') ? document.getElementById('seed').value : '';
+  let params = new URLSearchParams();
+  if(seed) params.append('seed', seed);
+  await fetch('/api/rerank?'+params.toString(),{method:'POST'});
   clearInterval(pollInterval);
   clearInterval(timerInterval);
   load();
@@ -124,7 +128,11 @@ async function doSearch(){
       } catch(e) {}
     }, 500);
 
-    r = await fetch('/api/rerank?query='+encodeURIComponent(q), {method:'POST'});
+    const seed = document.getElementById('seed') ? document.getElementById('seed').value : '';
+    let params = new URLSearchParams();
+    params.append('query', q);
+    if(seed) params.append('seed', seed);
+    r = await fetch('/api/rerank?'+params.toString(), {method:'POST'});
     clearInterval(pollInterval);
     res = await r.json();
     if(r.status !== 200) throw new Error(res.error || 'Rank failed');
@@ -210,14 +218,14 @@ def make_app(cfg: Config, session_id: str) -> FastAPI:
         return {"ok": True}
 
     @app.post("/api/rerank")
-    def rerank(query: str = None):
+    def rerank(query: str = None, seed: str = None):
         try:
             progress_state["active"] = True
             progress_state["msg"] = "Preparing embeddings..."
             progress_state["pct"] = 0
             s.embed_all(progress_cb=set_progress)
             set_progress("Ranking candidates...", 100)
-            s.rank(text_prompt=query or s.intent or None)
+            s.rank(text_prompt=query or s.intent or None, seed_image_path=seed)
             return {"ok": True}
         except Exception as e:
             return JSONResponse({"error": str(e)}, status_code=500)
