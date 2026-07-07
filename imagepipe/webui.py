@@ -151,6 +151,16 @@ async function exportSel(st){
   const r=await fetch('/api/export/'+st,{method:'POST'});
   stat.textContent = 'Exported to '+(await r.json()).path;
 }
+document.getElementById('provider').addEventListener('change', (e) => {
+  const q = document.getElementById('q');
+  if(e.target.value === 'local_dir') {
+    let p = prompt("Enter the absolute path to the local directory you want to scan:");
+    if(p) q.value = p;
+    q.placeholder = "Enter local directory path...";
+  } else {
+    q.placeholder = "Enter image prompt...";
+  }
+});
 load();
 </script>"""
 
