@@ -9,7 +9,19 @@
   [![SQLite](https://img.shields.io/badge/sqlite-%2307405e.svg?style=flat&logo=sqlite&logoColor=white)](https://www.sqlite.org/index.html)
 </div>
 
-A compliant image discovery → similarity → acquisition → dedup → classify → sort pipeline. Python 3.11+, SQLite, JSONL provenance, Pillow, imagehash, optional PyTorch/OpenCLIP, optional hnswlib, Typer CLI, FastAPI review UI.
+## About
+
+**imagepipe** is a robust, human-in-the-loop data pipeline designed for compliant image discovery, similarity matching, and acquisition. 
+
+Built for researchers, data scientists, and developers, imagepipe orchestrates the entire lifecycle of image datasets: from securely querying providers like Google CSE and Openverse, to deep normalization and embedding via OpenCLIP, and finally exposing a live, interactive FastAPI review grid. It enforces strict API compliance (respecting robots.txt and license requirements) while keeping a perfect provenance record of every action in a SQLite database and JSONL manifest.
+
+## Key Features
+
+- **Hybrid Similarity Ranking**: Combines zero-shot OpenCLIP vector embeddings, textual relevance, quality metrics, and Rocchio feedback to surface the best candidate images.
+- **Strict Compliance & PolicyGate**: Automatically drops thumbnail caches, honors `robots.txt`, and validates image mime-signatures before a single byte of disk is committed.
+- **Idempotent Data Model**: Uses an append-only JSONL manifest and an underlying relational SQLite database to ensure every state mutation is perfectly reproducible.
+- **Interactive Review UI**: A blazing-fast FastAPI single-page application that gives users live telemetry of the pipeline and enables real-time visual dataset curation and reranking.
+- **Deduplication Engine**: Automatically identifies and groups exact (SHA256) and near-duplicate (pHash) images, seamlessly extracting the highest quality keeper for your final dataset.
 
 ## 1. Architecture overview
 
