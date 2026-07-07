@@ -1,0 +1,30 @@
+digraph Architecture {
+    bgcolor="#1a1e25";
+    node [shape=box, style=filled, fillcolor="#2a3140", color="#3a4358", fontcolor="#d6d9de", fontname="sans-serif"];
+    edge [color="#7fb2d9", fontcolor="#d6d9de", fontname="sans-serif"];
+
+    UI [label="FastAPI Web UI"];
+    CLI [label="Typer CLI"];
+    Pipeline [label="Orchestration Pipeline"];
+    SQLite [label="SQLite DB", shape=cylinder, fillcolor="#336655"];
+    JSONL [label="JSONL Manifest", shape=note];
+    
+    Providers [label="API Providers\n(Openverse, Google CSE, Local)"];
+    Gate [label="PolicyGate\n(Rate limits, licenses, robots.txt)"];
+    Embed [label="Embedding Engine\n(OpenCLIP, HNSWLib)"];
+    
+    UI -> Pipeline [label="API Calls"];
+    CLI -> Pipeline [label="Commands"];
+    
+    Pipeline -> Providers [label="Search Queries"];
+    Providers -> Pipeline [label="Candidate Metadata"];
+    
+    Pipeline -> Gate [label="Check Image URLs"];
+    Gate -> Pipeline [label="Download Originals"];
+    
+    Pipeline -> Embed [label="Extract Features"];
+    Embed -> Pipeline [label="Ranked & Clustered"];
+    
+    Pipeline -> SQLite [label="State"];
+    Pipeline -> JSONL [label="Provenance"];
+}

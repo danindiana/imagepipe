@@ -1,0 +1,16 @@
+digraph PipelineFlow {
+    bgcolor="#1a1e25";
+    node [shape=Mrecord, style=filled, fillcolor="#2a3140", color="#3a4358", fontcolor="#d6d9de", fontname="sans-serif"];
+    edge [color="#7fb2d9", fontcolor="#d6d9de", fontname="sans-serif"];
+    
+    Start [shape=oval, label="New Session", fillcolor="#336655"];
+    Search [label="{1. Search|Query API provider\lRecord metadata\lNo downloads yet}"];
+    Acquire [label="{2. Acquire|PolicyGate checks\lRespect robots.txt\lDownload originals}"];
+    Normalize [label="{3. Normalize|Sniff signatures\lExtract EXIF\lGenerate phash\lCreate previews}"];
+    Embed [label="{4. Embed|Compute vector embeddings\l(OpenCLIP fallback to color)}"];
+    Rank [label="{5. Rank & Dedup|Hybrid scoring (text, img, qual)\lIdentify exact & near-dups\lGroup into clusters}"];
+    Review [label="{6. Review (Web UI)|Human-in-the-loop review\lKeep, Reject, Star\lLive Rocchio re-ranking}"];
+    Export [label="{7. Export|Generate folders by score\lCreate CSV manifest\lOutput contact sheet}"];
+    
+    Start -> Search -> Acquire -> Normalize -> Embed -> Rank -> Review -> Export;
+}

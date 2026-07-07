@@ -1,0 +1,53 @@
+digraph DataModel {
+    bgcolor="#1a1e25";
+    rankdir=LR;
+    node [shape=plaintext, fontname="sans-serif", fontcolor="#d6d9de"];
+    edge [color="#7fb2d9"];
+    
+    Sessions [label=<
+      <table border="0" cellborder="1" cellspacing="0" bgcolor="#2a3140">
+        <tr><td bgcolor="#336655" align="center" colspan="2"><b>sessions</b></td></tr>
+        <tr><td align="left">id</td><td align="left">TEXT (PK)</td></tr>
+        <tr><td align="left">intent</td><td align="left">TEXT</td></tr>
+        <tr><td align="left">config_json</td><td align="left">TEXT</td></tr>
+      </table>
+    >];
+
+    Searches [label=<
+      <table border="0" cellborder="1" cellspacing="0" bgcolor="#2a3140">
+        <tr><td bgcolor="#336655" align="center" colspan="2"><b>searches</b></td></tr>
+        <tr><td align="left">id</td><td align="left">TEXT (PK)</td></tr>
+        <tr><td align="left">session_id</td><td align="left">TEXT (FK)</td></tr>
+        <tr><td align="left">provider</td><td align="left">TEXT</td></tr>
+        <tr><td align="left">query</td><td align="left">TEXT</td></tr>
+      </table>
+    >];
+
+    Images [label=<
+      <table border="0" cellborder="1" cellspacing="0" bgcolor="#2a3140">
+        <tr><td bgcolor="#336655" align="center" colspan="2"><b>images</b></td></tr>
+        <tr><td align="left">id</td><td align="left">TEXT (PK)</td></tr>
+        <tr><td align="left">session_id</td><td align="left">TEXT (FK)</td></tr>
+        <tr><td align="left">search_id</td><td align="left">TEXT (FK)</td></tr>
+        <tr><td align="left">role</td><td align="left">TEXT</td></tr>
+        <tr><td align="left">status</td><td align="left">TEXT</td></tr>
+        <tr><td align="left">phash</td><td align="left">TEXT</td></tr>
+        <tr><td align="left">rank_score</td><td align="left">REAL</td></tr>
+      </table>
+    >];
+
+    Feedback [label=<
+      <table border="0" cellborder="1" cellspacing="0" bgcolor="#2a3140">
+        <tr><td bgcolor="#336655" align="center" colspan="2"><b>feedback</b></td></tr>
+        <tr><td align="left">id</td><td align="left">INTEGER (PK)</td></tr>
+        <tr><td align="left">session_id</td><td align="left">TEXT (FK)</td></tr>
+        <tr><td align="left">image_id</td><td align="left">TEXT (FK)</td></tr>
+        <tr><td align="left">signal</td><td align="left">TEXT</td></tr>
+      </table>
+    >];
+
+    Sessions -> Searches;
+    Sessions -> Images;
+    Searches -> Images;
+    Images -> Feedback;
+}

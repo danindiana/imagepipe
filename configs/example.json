@@ -1,0 +1,18 @@
+{
+  "workdir": "./imagepipe_data",
+  "provider": "openverse",
+  "max_results": 40,
+  "rate_limit_rps": 0.5,
+  "download_concurrency": 2,
+  "respect_robots": true,
+  "block_domains": ["pinterest.com", "gettyimages.com", "shutterstock.com"],
+  "allow_domains": [],
+  "require_license": false,
+  "rights_filter": "",
+  "min_width": 300,
+  "min_height": 300,
+  "embed_model": "auto",
+  "w_image_sim": 0.45, "w_text_sim": 0.25, "w_quality": 0.10,
+  "w_license": 0.05, "w_source_trust": 0.05, "w_feedback": 0.10,
+  "dup_phash_hamming": 6
+}

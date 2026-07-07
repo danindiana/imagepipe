@@ -1,0 +1,32 @@
+digraph Lessons {
+    bgcolor="#1a1e25";
+    rankdir=LR;
+    node [shape=box, style="filled,rounded", fillcolor="#2a3140", color="#3a4358", fontcolor="#d6d9de", fontname="sans-serif"];
+    edge [color="#7fb2d9"];
+    
+    Core [label="ImagePipe\nLessons Learned", shape=ellipse, fillcolor="#336655"];
+    
+    Threads [label="SQLite Thread Safety"];
+    Threads_Desc [label="FastAPI runs endpoints in worker threads.\nSQLite connections must be created with\ncheck_same_thread=False or managed per-request.", shape=note];
+    
+    Telemetry [label="UI Telemetry & UX"];
+    Telemetry_Desc [label="Long-running synchronous backend tasks\nrequire granular endpoints so the frontend\ncan show step-by-step progress/timers.", shape=note];
+    
+    Errors [label="Graceful Error Handling"];
+    Errors_Desc [label="Providers (like Google CSE) might return 0 results\nor throw auth errors. The UI must catch HTTP 500s\nand empty result sets to alert the user.", shape=note];
+    
+    Compliance [label="Compliance & Policies"];
+    Compliance_Desc [label="PolicyGate is critical. It prevents hotlinking\nthumbnails from gstatic, enforces robots.txt, and\nvalidates mime types before ingestion.", shape=note];
+    
+    Core -> Threads;
+    Threads -> Threads_Desc;
+    
+    Core -> Telemetry;
+    Telemetry -> Telemetry_Desc;
+    
+    Core -> Errors;
+    Errors -> Errors_Desc;
+    
+    Core -> Compliance;
+    Compliance -> Compliance_Desc;
+}
