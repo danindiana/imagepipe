@@ -70,8 +70,24 @@ const btn=(id,s,t)=>`<button onclick="fb('${id}','${s}')">${t}</button>`;
 async function fb(id,s){await fetch(`/api/feedback/${id}/${s}`,{method:'POST'});
   document.getElementById('fb-'+id).textContent=' '+s;}
 async function rerank(){
-  document.getElementById('status').textContent='Re-ranking...';
+  const stat = document.getElementById('statText');
+  const timer = document.getElementById('timer');
+  const startTime = Date.now();
+  let timerInterval = setInterval(() => {
+    timer.textContent = ((Date.now() - startTime)/1000).toFixed(1) + 's';
+  }, 100);
+
+  stat.textContent = 'Re-ranking with feedback...';
+  let pollInterval = setInterval(async () => {
+    try {
+      let p = await fetch('/api/progress').then(res => res.json());
+      if(p.active) stat.textContent = `Re-ranking: ${p.msg} (${p.pct}%)`;
+    } catch(e) {}
+  }, 500);
+
   await fetch('/api/rerank',{method:'POST'});
+  clearInterval(pollInterval);
+  clearInterval(timerInterval);
   load();
 }
 async function doSearch(){
