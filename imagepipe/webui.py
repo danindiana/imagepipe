@@ -46,7 +46,7 @@ h1{font-size:16px} .grid{display:grid;grid-template-columns:repeat(auto-fill,min
 async function load(){
   const stat = document.getElementById('statText');
   stat.textContent = 'Loading images...';
-  const r = await fetch('/api/images'); const d = await r.json();
+  const r = await fetch('/api/images?_t=' + Date.now()); const d = await r.json();
   document.getElementById('sid').textContent = d.session;
   stat.textContent = `Loaded ${d.images.length} images. Ready.`;
   const g = document.getElementById('grid'); g.innerHTML='';
@@ -165,9 +165,11 @@ def make_app(cfg: Config, session_id: str) -> FastAPI:
                ORDER BY rank_score DESC NULLS LAST""", (s.id,))]
         fb = {r["image_id"]: r["signal"] for r in s.con.execute(
             "SELECT image_id, signal FROM feedback WHERE session_id=? ORDER BY created_at", (s.id,))}
-        for r in rows:
+        
+        filtered_rows = [r for r in rows if fb.get(r["id"]) != "reject"]
+        for r in filtered_rows:
             r["fb"] = fb.get(r["id"])
-        return {"session": s.id, "images": rows}
+        return {"session": s.id, "images": filtered_rows}
 
     @app.get("/preview/{image_id}")
     def preview(image_id: str):

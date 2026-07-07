@@ -148,3 +148,6 @@
 {"ts": 1783400114.3293169, "event": "feedback", "image_id": "471cd2ac1bbc46b9", "signal": "reject"}
 {"ts": 1783400115.2249107, "event": "feedback", "image_id": "f8a09ac964ae4edb", "signal": "reject"}
 {"ts": 1783400175.7469213, "event": "feedback", "image_id": "5e69591272564bd2", "signal": "reject"}
+{"ts": 1783400240.052651, "event": "embedded", "count": 0}
+{"ts": 1783400240.0531971, "event": "embed_backend", "model": "fallback_colorgrad"}
+{"ts": 1783400240.0560687, "event": "ranked", "candidates": 31, "refs": 0, "text_prompt": "beautiful landscapes", "feedback_pos": 3, "feedback_neg": 20}
